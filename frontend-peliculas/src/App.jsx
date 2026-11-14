@@ -3,6 +3,7 @@ import Generos from "./pages/Generos";
 import Directores from "./pages/Directores";
 import Productoras from "./pages/Productoras";
 import Tipos from "./pages/Tipos";
+import Media from "./pages/Media";
 
 const modulos = [
   { nombre: "Géneros", ruta: "/generos", icono: "🎭" },
@@ -101,7 +102,7 @@ function Aplicacion() {
               <Route path="/directores" element={<Directores />} />
               <Route path="/productoras" element={<Productoras />} />
               <Route path="/tipos" element={<Tipos />} />
-              <Route path="/media" element={<Modulo nombre="Media (Películas y series)" />} />
+              <Route path="/media" element={<Media />} />
             </Routes>
           </div>
         </main>
