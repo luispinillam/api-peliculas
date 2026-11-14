@@ -54,7 +54,7 @@ router.put("/:id", async (req, res) => {
         const { id } = req.params;
         const { nombre, descripcion } = req.body;
 
-        if (!nombre) {
+        if (!nombre) { 
             return res.status(400).json({
                 mensaje: "El nombre del tipo es obligatorio"
             });
