@@ -5,6 +5,7 @@ const directoresRoutes = require("./routes/directores.routes.js");
 const productorasRoutes = require("./routes/productoras.routes.js");
 const tiposRoutes = require("./routes/tipos.routes.js")
 const mediaRoutes = require("./routes/media.routes.js")
+const cors = require("cors");
 
 const app = express();
 
@@ -16,7 +17,8 @@ conexion.getConnection()
     .catch(error => {
         console.error("Error al conectar con MySQL:", error.message);
     });
-
+    
+app.use(cors());
 app.use(express.json());
 app.use("/api/generos", generosRoutes);
 app.use("/api/directores", directoresRoutes);

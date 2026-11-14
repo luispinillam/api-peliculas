@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import Generos from "./pages/Generos";
 
 const modulos = [
   { nombre: "Géneros", ruta: "/generos", icono: "🎭" },
@@ -93,7 +94,7 @@ function Aplicacion() {
           <div className="container-fluid p-4">
             <Routes>
               <Route path="/" element={<Inicio />} />
-              <Route path="/generos" element={<Modulo nombre="Géneros" />} />
+              <Route path="/generos" element={<Generos />} />
               <Route path="/directores" element={<Modulo nombre="Directores" />} />
               <Route path="/productoras" element={<Modulo nombre="Productoras" />} />
               <Route path="/tipos" element={<Modulo nombre="Tipos" />} />
