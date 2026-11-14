@@ -336,58 +336,70 @@ function Media() {
 
           <div className="table-responsive">
             <table className="table table-hover align-middle">
-              <thead className="table-dark">
-                <tr>
-                  <th>ID</th>
-                  <th>Serial</th>
-                  <th>Título</th>
-                  <th>Año</th>
-                  <th>Género</th>
-                  <th>Director</th>
-                  <th>Productora</th>
-                  <th>Tipo</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
+  <thead className="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Serial</th>
+      <th>Carátula</th>
+      <th>Título</th>
+      <th>Año</th>
+      <th>Género</th>
+      <th>Director</th>
+      <th>Productora</th>
+      <th>Tipo</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
 
-              <tbody>
-                {medias.length > 0 ? (
-                  medias.map(media => (
-                    <tr key={media.id}>
-                      <td>{media.id}</td>
-                      <td>{media.serial}</td>
-                      <td>{media.titulo}</td>
-                      <td>{media.anio_lanzamiento}</td>
-                      <td>{media.genero}</td>
-                      <td>{media.director}</td>
-                      <td>{media.productora}</td>
-                      <td>{media.tipo}</td>
-                      <td>
-                        <button
-                          className="btn btn-sm btn-warning me-2 mb-1"
-                          onClick={() => editarMedia(media)}
-                        >
-                          Editar
-                        </button>
+  <tbody>
+    {medias.length > 0 ? (
+      medias.map(media => (
+        <tr key={media.id}>
+          <td>{media.id}</td>
+          <td>{media.serial}</td>
+          <td>
+            {media.imagen ? (
+              <img
+                src={media.imagen}
+                alt={media.titulo}
+                className="media-poster"
+              />
+            ) : (
+              <span className="text-secondary">Sin imagen</span>
+            )}
+          </td>
+          <td className="fw-semibold">{media.titulo}</td>
+          <td>{media.anio_lanzamiento}</td>
+          <td>{media.genero}</td>
+          <td>{media.director}</td>
+          <td>{media.productora}</td>
+          <td>{media.tipo}</td>
+          <td>
+            <button
+              className="btn btn-sm btn-warning me-2 mb-1"
+              onClick={() => editarMedia(media)}
+            >
+              Editar
+            </button>
 
-                        <button
-                          className="btn btn-sm btn-danger mb-1"
-                          onClick={() => eliminarMedia(media.id)}
-                        >
-                          Eliminar
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="9" className="text-center text-secondary py-4">
-                      No hay producciones registradas.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+            <button
+              className="btn btn-sm btn-danger mb-1"
+              onClick={() => eliminarMedia(media.id)}
+            >
+              Eliminar
+            </button>
+          </td>
+        </tr>
+      ))
+    ) : (
+      <tr>
+        <td colSpan="10" className="text-center text-secondary py-4">
+          No hay producciones registradas.
+        </td>
+      </tr>
+    )}
+  </tbody>
+</table>
           </div>
         </div>
       </div>

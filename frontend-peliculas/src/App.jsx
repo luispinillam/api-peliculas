@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import api from "./services/api";
 import Generos from "./pages/Generos";
 import Directores from "./pages/Directores";
 import Productoras from "./pages/Productoras";
@@ -14,22 +16,106 @@ const modulos = [
 ];
 
 function Inicio() {
+  const [estadisticas, setEstadisticas] = useState({
+    producciones: 0,
+    peliculas: 0,
+    series: 0,
+    generos: 0
+  });
+
+  useEffect(() => {
+    const cargarEstadisticas = async () => {
+      try {
+        const [mediaRes, generosRes] = await Promise.all([
+          api.get("/media"),
+          api.get("/generos")
+        ]);
+
+        const producciones = mediaRes.data;
+
+        setEstadisticas({
+          producciones: producciones.length,
+          peliculas: producciones.filter(
+            m => m.tipo?.toLowerCase() === "película"
+          ).length,
+          series: producciones.filter(
+            m => m.tipo?.toLowerCase() === "serie"
+          ).length,
+          generos: generosRes.data.length
+        });
+      } catch (error) {
+        console.error("Error cargando estadísticas:", error);
+      }
+    };
+
+    cargarEstadisticas();
+  }, []);
+
+  const tarjetas = [
+    {
+      nombre: "Total de producciones",
+      valor: estadisticas.producciones,
+      icono: "🎬"
+    },
+    {
+      nombre: "Películas",
+      valor: estadisticas.peliculas,
+      icono: "🎥"
+    },
+    {
+      nombre: "Series",
+      valor: estadisticas.series,
+      icono: "📺"
+    },
+    {
+      nombre: "Géneros registrados",
+      valor: estadisticas.generos,
+      icono: "🎭"
+    }
+  ];
+
   return (
     <div>
-      <h2 className="fw-bold">Bienvenido a Películas & Series</h2>
+      <h2 className="fw-bold">Bienvenido a CineApp</h2>
       <p className="text-secondary">
         Administra tus películas y series desde una sola plataforma.
       </p>
 
-      <div className="row g-3 mt-3">
+      <div className="row g-3 mt-3 mb-4">
+        {tarjetas.map((tarjeta, index) => (
+          <div className="col-md-6 col-xl-3" key={index}>
+            <div className="card border-0 shadow-sm h-100">
+              <div className="card-body p-4">
+                <div className="d-flex justify-content-between align-items-center">
+                  <div>
+                    <p className="text-secondary mb-2">
+                      {tarjeta.nombre}
+                    </p>
+                    <h2 className="fw-bold mb-0">
+                      {tarjeta.valor}
+                    </h2>
+                  </div>
+                  <span className="fs-1">{tarjeta.icono}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h5 className="fw-bold mt-4 mb-3">Módulos de administración</h5>
+
+      <div className="row g-3">
         {modulos.map((modulo) => (
           <div className="col-md-4" key={modulo.ruta}>
             <NavLink
               to={modulo.ruta}
-              className="card h-100 text-decoration-none shadow-sm border-0"
+              className="card h-100 text-decoration-none border-0 dashboard-card"
             >
               <div className="card-body p-4">
-                <div className="fs-1">{modulo.icono}</div>
+                <div className="fs-1 dashboard-icon">
+                  {modulo.icono}
+                </div>
                 <h5 className="fw-bold text-dark mt-3">
                   {modulo.nombre}
                 </h5>
@@ -45,30 +131,23 @@ function Inicio() {
   );
 }
 
-function Modulo({ nombre }) {
-  return (
-    <div className="card border-0 shadow-sm p-4">
-      <h2 className="fw-bold">{nombre}</h2>
-      <p className="text-secondary mb-0">
-        En esta sección construiremos las funciones para administrar {nombre.toLowerCase()}.
-      </p>
-    </div>
-  );
-}
-
 function Aplicacion() {
   return (
     <BrowserRouter>
       <div className="d-flex min-vh-100">
-        <aside className="sidebar bg-dark text-white p-3">
+        <aside className="sidebar p-3">
           <h4 className="fw-bold mb-1">🎬 CineApp</h4>
           <small className="text-secondary">Panel de administración</small>
 
           <hr className="border-secondary" />
 
-          <NavLink to="/" end className={({ isActive }) =>
-            `nav-link text-white rounded p-3 mb-2 ${isActive ? "active-menu" : ""}`
-          }>
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `nav-link text-white rounded p-3 mb-2 ${isActive ? "active-menu" : ""}`
+            }
+          >
             🏠 Inicio
           </NavLink>
 
@@ -90,8 +169,10 @@ function Aplicacion() {
         </aside>
 
         <main className="flex-grow-1">
-          <nav className="navbar bg-white shadow-sm px-4 py-3">
-            <span className="fw-semibold">Sistema de gestión audiovisual</span>
+          <nav className="navbar bg-white shadow-sm px-4 py-3 border-bottom">
+            <span className="fw-bold text-dark">
+              🎬 Sistema de gestión audiovisual
+            </span>
             <span className="text-secondary">React + Node.js</span>
           </nav>
 
