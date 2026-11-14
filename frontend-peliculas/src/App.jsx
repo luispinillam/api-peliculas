@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import Generos from "./pages/Generos";
 import Directores from "./pages/Directores";
 import Productoras from "./pages/Productoras";
+import Tipos from "./pages/Tipos";
 
 const modulos = [
   { nombre: "Géneros", ruta: "/generos", icono: "🎭" },
@@ -99,7 +100,7 @@ function Aplicacion() {
               <Route path="/generos" element={<Generos />} />
               <Route path="/directores" element={<Directores />} />
               <Route path="/productoras" element={<Productoras />} />
-              <Route path="/tipos" element={<Modulo nombre="Tipos" />} />
+              <Route path="/tipos" element={<Tipos />} />
               <Route path="/media" element={<Modulo nombre="Media (Películas y series)" />} />
             </Routes>
           </div>
